@@ -1,0 +1,12 @@
+<h1>Admin Dashboard</h1>
+<table id="users"></table>
+
+<script>
+async function loadUsers() {
+  const { data } = await supabase.from("profiles").select("*");
+  document.getElementById("users").innerHTML = data.map(
+    u => `<tr><td>${u.name}</td><td>${u.role}</td></tr>`
+  ).join("");
+}
+loadUsers();
+</script>

@@ -9,4 +9,10 @@ async function loadUsers() {
   ).join("");
 }
 loadUsers();
+  async function createCommittee(name, description) {
+  await supabase.from("committees").insert({ name, description });
+  }
+  await supabase.from("profiles")
+  .update({ committee_id, position_id })
+  .eq("id", userId);
 </script>

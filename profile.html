@@ -1,0 +1,12 @@
+<h2>Profile</h2>
+<input id="name" />
+<button onclick="updateProfile()">Save</button>
+
+<script>
+async function updateProfile() {
+  const user = (await supabase.auth.getUser()).data.user;
+  await supabase.from("profiles").update({
+    name: document.getElementById("name").value
+  }).eq("id", user.id);
+}
+</script>

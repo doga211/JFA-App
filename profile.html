@@ -8,5 +8,21 @@ async function updateProfile() {
   await supabase.from("profiles").update({
     name: document.getElementById("name").value
   }).eq("id", user.id);
+  async function uploadAvatar(file) {
+  const user = (await supabase.auth.getUser()).data.user;
+  const filePath = `${user.id}.png`;
+
+  await supabase.storage
+    .from("avatars")
+    .upload(filePath, file, { upsert: true });
+
+  const { data } = supabase.storage
+    .from("avatars")
+    .getPublicUrl(filePath);
+
+  await supabase.from("profiles")
+    .update({ avatar: data.publicUrl })
+    .eq("id", user.id);
+  }
 }
 </script>
